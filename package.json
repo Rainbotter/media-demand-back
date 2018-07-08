@@ -1,0 +1,26 @@
+{
+  "name": "media-demands-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "mongodb": "^3.0.4",
+    "mongoose": "^5.0.9",
+    "mongoose-uuid2": "^2.1.0",
+    "multer": "^1.3.0",
+    "winston": "^2.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.bober.ovh:antoinerobert/media-demands-back.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
