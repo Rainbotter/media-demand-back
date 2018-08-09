@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-
 const logger = require('./app/config/logger');
 const database = require('./app/config/mongoConnector.js');
-
 const controllers = require('./app/controllers/');
 
 const port = 8081;
+const baseUrl = "/api";
 
 
 app.use(bodyParser.urlencoded({
@@ -15,7 +14,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use(controllers);
+app.use(baseUrl,controllers);
 
 process.on('beforeExit', (code) => {
     close_application(code);
