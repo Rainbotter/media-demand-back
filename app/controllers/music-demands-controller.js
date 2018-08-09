@@ -21,14 +21,21 @@ router.get('/:id', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    musicDemandHelper.createNewMusicDemand(req.body.demand)
-        .then(id => {
-            res.json({id: id});
-            res.status(201);
-        })
-        .catch(err => {
-            res.status(400);
-        });
+    if (req.body) {
+        musicDemandHelper.createNewMusicDemand(req.body)
+            .then(id => {
+                res.json({id: id});
+                res.status(201);
+            })
+            .catch(err => {
+                logger.error(err);
+                res.status(400);
+                res.send();
+            });
+    } else {
+        res.status(400);
+        res.send();
+    }
 
 });
 

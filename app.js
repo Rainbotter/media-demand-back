@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const logger = require('./app/config/logger');
 const database = require('./app/config/mongoConnector.js');
@@ -7,6 +8,12 @@ const database = require('./app/config/mongoConnector.js');
 const controllers = require('./app/controllers/');
 
 const port = 8081;
+
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 app.use(controllers);
 

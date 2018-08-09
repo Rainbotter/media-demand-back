@@ -28,14 +28,12 @@ class MusicDemand {
             creation_date: new Date()
         });
 
-        demand.save()
-            .then(() => demand._id)
+        return demand.save()
+            .then(() => demand.id)
             .catch(() => logger.error("Can't create demand"));
     }
 
     static getAllMusicDemands() {
-        //musicModel.find({}).remove().exec();
-
         return musicModel.find({})
             .then(result => result)
             .catch(err => err);
