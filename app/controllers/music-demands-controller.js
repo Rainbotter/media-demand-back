@@ -10,14 +10,47 @@ router.get('/', function (req, res) {
 });
 
 router.get('/:id', function (req, res) {
-    musicDemandHelper.getMusicDemandById()
-        .then(value => {
-            res.status(200);
-            res.json({musicDemands: value})
+    musicDemandHelper.getMusicDemandById(req.params.id)
+        .then(result => {
+            if (!result) {
+                res.status(404);
+                res.json({
+                    message: "Could not find element",
+                    element: req.params.id
+                })
+            } else {
+                res.status(200);
+                res.json(result)
+            }
         })
         .catch(err => {
-
+            logger.error(err);
         });
+});
+
+router.put('/:id/resolve', function (req, res) {
+    if (req.params.id) {
+        musicDemandHelper.resolveMusicDemand(req.params.id)
+            .then(result => {
+                if (!result) {
+                    res.status(404);
+                    res.json({
+                        message: "Could not find unresolved element",
+                        element: req.params.id
+                    })
+                } else {
+                    res.status(200);
+                    res.json({resolveDate: result.resolveDate})
+                }
+            })
+            .catch(err => {
+
+            });
+    }
+    else {
+        res.status(400);
+        res.send();
+    }
 });
 
 router.post('/', function (req, res) {
