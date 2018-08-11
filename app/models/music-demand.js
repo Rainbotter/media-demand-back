@@ -28,9 +28,15 @@ class MusicDemand {
             creation_date: new Date()
         });
 
+        if (!demand.artiste || !demand.album) {
+            return new Promise((resolve, reject) => {
+                reject('Malformed request. Artiste or Album missing.');
+            });
+        }
+
         return demand.save()
             .then(() => demand.id)
-            .catch(() => logger.error("Can't create demand"));
+            .catch(err => err);
     }
 
     static getAllMusicDemands() {
