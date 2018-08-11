@@ -69,6 +69,44 @@ class MusicDemand {
             });
     }
 
+    static findLastCreatedDemands(lastDemandsNumber) {
+        return musicModel.find()
+            .sort({creation_date: 'desc'})
+            .limit(lastDemandsNumber)
+            .then(result => result)
+            .catch(err => {
+                logger.error("Could not find last " + lastDemandsNumber + " created demands: " + err);
+            });
+    }
+
+    static findLastResolveddDemands(lastDemandsNumber) {
+        let query = {resolveDate: {$exists: true}};
+        return musicModel.find(query)
+            .sort({resolveDate: 'desc'})
+            .limit(lastDemandsNumber)
+            .then(result => result)
+            .catch(err => {
+                logger.error("Could not find last " + lastDemandsNumber + " resolved demands: " + err);
+            });
+    }
+
+    static countCreatedDemands() {
+        return musicModel.count()
+            .then(result => result)
+            .catch(err => {
+                logger.error("Could not find total number of created demands: " + err);
+            });
+    }
+
+    static countResolvedDemands() {
+        let query = {resolveDate: {$exists: true}};
+        return musicModel.count(query)
+            .then(result => result)
+            .catch(err => {
+                logger.error("Could not find total number of resolved demands: " + err);
+            });
+    }
+
 }
 
 module.exports = MusicDemand;
