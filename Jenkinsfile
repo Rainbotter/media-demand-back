@@ -12,6 +12,12 @@ node {
         sh "npm install"
     }
 
+    stage('Deploy to production ?') {
+        timeout(time: 1, unit: 'HOURS') {
+            input 'Deploy to Production?'
+        }
+    }
+
     stage('deploy') {
         sh "cp -R node_modules /home/jenkins/prod/back/"
         sh "cp app.js /home/jenkins/prod/back/"
