@@ -11,10 +11,12 @@ router.get('/', function (req, res) {
         musicDemandHelper.countResolvedDemands()
     ]).then(result => {
         res.json({
-            lastCreatedDemands: result[0],
-            lastResolvedDemands: result[1],
-            numberOfCreatedDemands: result[2],
-            numberOfResolvedDemands: result[3]
+            music: {
+                lastCreatedDemands: result[0],
+                lastResolvedDemands: result[1],
+                numberOfCreatedDemands: result[2],
+                numberOfResolvedDemands: result[3]
+            }
         });
         res.status(201);
     })
