@@ -19,9 +19,12 @@ node {
     }
 
     stage('deploy') {
+        sh "echo deploy application package"
         sh "cp -R node_modules /home/jenkins/prod/back/"
         sh "cp app.js /home/jenkins/prod/back/"
         sh "cp -R app /home/jenkins/prod/back/"
         sh "cp -R docker /home/jenkins/prod/back/"
+        sh "echo Restarting node"
+        sh "pm2 restart app"
     }
 }
