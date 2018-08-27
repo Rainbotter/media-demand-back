@@ -19,17 +19,19 @@ function connect() {
 }
 
 function close() {
-    return new Promise(function (resolve, reject) {
-        mongoose.connection.close().then(
-            () => {
-                logger.info("Database connection closed successfully");
-                resolve();
-            },
-            err => {
-                logger.error(err);
-                reject(2);
-            });
-    });
+    if (mongoose.connection.readyState) {
+        return new Promise(function (resolve, reject) {
+            mongoose.connection.close().then(
+                () => {
+                    logger.info("Database connection closed successfully");
+                    resolve();
+                },
+                err => {
+                    logger.error(err);
+                    reject(2);
+                });
+        });
+    }
 }
 
 module.exports.connect = connect;

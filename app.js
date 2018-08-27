@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const logger = require('./app/config/logger');
 const database = require('./app/config/mongoConnector.js');
+const recaptchaSecret = require('./app/config/recaptachaSecret.js');
 const controllers = require('./app/controllers/');
 
 const port = 8081;
@@ -14,21 +15,26 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
-app.use(baseUrl,controllers);
+app.use(baseUrl, controllers);
 
 process.on('beforeExit', (code) => {
     close_application(code);
 });
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
     close_application(0);
 });
+
+recaptchaSecret.prepareSecret()
+    .then(data => {
+    })
+    .catch(errorCode => close_application(errorCode));
 
 database.connect()
     .then(() => expose_application())
@@ -46,7 +52,7 @@ function close_application(exit_code) {
         .catch(errCode => errCode);
 }
 
-function exit(exit_code){
+function exit(exit_code) {
     if (exit_code === 0) {
         logger.info("The application will gracefully exit (code " + exit_code + ").");
     } else {

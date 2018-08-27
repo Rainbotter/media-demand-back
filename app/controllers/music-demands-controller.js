@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('winston');
 const router = express.Router();
 const musicDemandHelper = require('../models/music-demand');
+const grecaptchaHelper = require('./helpers/grecaptcha-helper');
 
 router.get('/', function (req, res) {
     musicDemandHelper.getAllMusicDemands()
@@ -55,16 +56,26 @@ router.put('/:id/resolve', function (req, res) {
 
 router.post('/', function (req, res) {
     if (req.body) {
-        musicDemandHelper.createNewMusicDemand(req.body)
-            .then(id => {
-                res.json({id: id});
-                res.status(201);
-            })
-            .catch(err => {
-                logger.error(err);
-                res.status(400);
+        grecaptchaHelper.getGrecapatchaScore(req.body.token).then(response => {
+            musicDemandHelper.createNewMusicDemand(req.body)
+                .then(id => {
+                    res.json({id: id});
+                    res.status(201);
+                })
+                .catch(err => {
+                    logger.error(err);
+                    res.status(400);
+                    res.send();
+                });
+        }).catch(error => {
+            if (error.message === 'Too low score') {
+                res.status(401);
                 res.send();
-            });
+            } else {
+                res.status(500);
+                res.send();
+            }
+        })
     } else {
         res.status(400);
         res.send();
