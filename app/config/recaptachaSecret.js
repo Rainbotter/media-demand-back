@@ -1,7 +1,7 @@
 const logger = require('winston');
 const fs = require('fs');
 
-const filePath = './secret.txt';
+const filePath = './recaptcha_secret.txt';
 const encoding = 'utf8';
 
 let secret = '';
@@ -15,7 +15,7 @@ function prepareSecret() {
                 return reject(3);
             }
 
-            logger.info('File found. Secret will be read.');
+            logger.info('File ' + filePath + ' found. Secret will be read.');
             exports.secret = data;
             return resolve(data);
         });

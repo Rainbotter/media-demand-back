@@ -63,4 +63,5 @@ typings/
 *.iml
 .idea
 
-secret.txt
+mail_secret.txt
+recaptcha_secret.txt

@@ -2,9 +2,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const logger = require('./app/config/logger');
-const database = require('./app/config/mongoConnector.js');
-const recaptchaSecret = require('./app/config/recaptachaSecret.js');
+const database = require('./app/config/mongoConnector');
+const recaptchaSecret = require('./app/config/recaptachaSecret');
 const controllers = require('./app/controllers/');
+const mailConfig = require('./app/config/mailConfig');
 
 const port = 8081;
 const baseUrl = "/api";
@@ -31,12 +32,7 @@ process.on('SIGINT', function () {
     close_application(0);
 });
 
-recaptchaSecret.prepareSecret()
-    .then(data => {
-    })
-    .catch(errorCode => close_application(errorCode));
-
-database.connect()
+Promise.all([database.connect(), mailConfig.verifyConnection(), recaptchaSecret.prepareSecret()])
     .then(() => expose_application())
     .catch(errorCode => close_application(errorCode));
 
