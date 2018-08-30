@@ -6,7 +6,7 @@ class mailHelper {
     static sendNewMusicDemandCreatedMail(demand) {
 
         const message = {
-            from: 'demands@bober.ovh',
+            from: 'Gestionnaire de demande bober.ovh<demands@bober.ovh>',
             to: 'antoine.robert@bober.ovh',
             subject: 'Nouvelle demande de musique : ' + demand.artiste,
             text: 'Une nouvelle demande viens d\'arriver !\n\n' +
