@@ -3,6 +3,7 @@ const logger = require('winston');
 const router = express.Router();
 const musicDemandHelper = require('../models/music-demand');
 const grecaptchaHelper = require('./helpers/grecaptcha-helper');
+const mailHelper = require('./helpers/mail-helper');
 
 router.get('/', function (req, res) {
     musicDemandHelper.getAllMusicDemands()
@@ -59,6 +60,7 @@ router.post('/', function (req, res) {
         grecaptchaHelper.getGrecapatchaScore(req.body.token).then(response => {
             musicDemandHelper.createNewMusicDemand(req.body)
                 .then(id => {
+                    mailHelper.sendNewMusicDemandCreatedMail(req.body);
                     res.json({id: id});
                     res.status(201);
                 })

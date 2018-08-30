@@ -40,9 +40,10 @@ function verifyConnection() {
                     resolve();
                 }
             });
+
+            module.exports.transporter = transporter;
         });
     });
 }
 
 module.exports.verifyConnection = verifyConnection;
-module.exports.transporter = transporter;
