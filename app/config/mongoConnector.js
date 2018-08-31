@@ -2,11 +2,9 @@ const mongoose = require('mongoose');
 const logger = require('winston');
 const fs = require('fs');
 
-    const mongoDB = '/media_demands';
+const mongoDB = '/media_demands';
 const mongoProtocol = 'mongodb://';
 const mongoURL = '127.0.0.1:27017';
-const mangooseOptions = {};
-
 
 const mongoUserFilePath = './mongo_user.txt';
 const mongoPasswordFilePath = './mongo_secret.txt';
@@ -36,7 +34,11 @@ function connect() {
 
     return new Promise(function (resolve, reject) {
         Promise.all([mongoUserFilePromise, mongoPasswordFilePromise]).then(result => {
-            mongoose.connect(mongoProtocol + result[0] + ':' + result[1] + '@' + mongoURL + mongoDB, mangooseOptions).then(
+            let mangooseOptions = {
+                user: result[0],
+                pass: result[1]
+            };
+            mongoose.connect(mongoProtocol + mongoURL + mongoDB, mangooseOptions).then(
                 () => {
                     logger.info("Database connected successfuly to " + mongoDB);
                     resolve();
