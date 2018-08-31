@@ -65,3 +65,5 @@ typings/
 
 mail_secret.txt
 recaptcha_secret.txt
+mongo_user.txt
+mongo_secret.txt
