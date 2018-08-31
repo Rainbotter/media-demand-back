@@ -9,7 +9,7 @@ class mailHelper {
             from: 'Gestionnaire de demande bober.ovh<demands@bober.ovh>',
             to: 'antoine.robert@bober.ovh',
             subject: 'Nouvelle demande de musique : ' + demand.artiste,
-            text: 'Une nouvelle demande viens d\'arriver !\n\n' +
+            text: 'Une nouvelle demande vient d\'arriver !\n\n' +
                 'Artiste : ' + demand.artiste + '\n' +
                 'Discographie complète : ' + demand.fullDiscography + '\n' +
                 'Album : ' + demand.album + '\n' +
