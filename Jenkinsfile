@@ -13,7 +13,7 @@ node {
     }
 
     stage('Deploy to production ?') {
-        timeout(time: 1, unit: 'HOURS') {
+        timeout(time: 5, unit: 'MINUTES') {
             input 'Deploy to Production?'
         }
     }
